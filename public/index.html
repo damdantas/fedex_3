@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FedEx Weight Checker</title>
+</head>
+<body>
+    <h1>Enter FedEx AWB</h1>
+    <input id="awb" type="text" placeholder="Enter AWB number">
+    <button onclick="checkWeight()">Check Weight</button>
+    <p id="result"></p>
+
+    <script>
+        async function checkWeight() {
+            const awb = document.getElementById('awb').value;
+            const response = await fetch('/get-weight', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ awb })
+            });
+            const data = await response.json();
+            document.getElementById('result').textContent = data.weight || data.error;
+        }
+    </script>
+</body>
+</html>
